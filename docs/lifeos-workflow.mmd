@@ -1,0 +1,60 @@
+---
+config:
+  flowchart:
+    curve: linear
+---
+graph TD;
+	__start__([<p>__start__</p>]):::first
+	route_request(route_request)
+	read_preferences(read_preferences)
+	record_order(record_order)
+	__end__([<p>__end__</p>]):::last
+	__start__ --> route_request;
+	food\3a__end__ --> record_order;
+	manage_memory\3aprocess_memory -. &nbsp;end&nbsp; .-> __end__;
+	read_preferences --> food\3a__start__;
+	record_order --> learn_orders\3aprocess_memory;
+	route_request -. &nbsp;end&nbsp; .-> __end__;
+	route_request -.-> manage_memory\3aprocess_memory;
+	route_request -. &nbsp;read_preferences&nbsp; .-> warm_memory\3aprocess_memory;
+	warm_memory\3aprocess_memory --> read_preferences;
+	learn_orders\3aprocess_memory --> __end__;
+	subgraph process_memory
+	manage_memory\3aprocess_memory -. &nbsp;read_preferences&nbsp; .-> warm_memory\3aprocess_memory;
+	end
+	subgraph food
+	food\3a__start__(<p>__start__</p>)
+	food\3aassistant(assistant)
+	food\3aquery_tools(query_tools)
+	food\3acart(cart)
+	food\3aapproval(approval)
+	food\3asubmit_order(submit_order)
+	food\3aresolve_order(resolve_order)
+	food\3a__end__(<p>__end__</p>)
+	food\3a__start__ --> food\3aassistant;
+	food\3aapproval -. &nbsp;end&nbsp; .-> food\3a__end__;
+	food\3aapproval -.-> food\3asubmit_order;
+	food\3aassistant -. &nbsp;end&nbsp; .-> food\3a__end__;
+	food\3aassistant -.-> food\3acart;
+	food\3aassistant -.-> food\3aquery_tools;
+	food\3aassistant -.-> food\3aresolve_order;
+	food\3acart -.-> food\3aapproval;
+	food\3acart -.-> food\3aassistant;
+	food\3aquery_tools --> food\3aassistant;
+	food\3asubmit_order -. &nbsp;end&nbsp; .-> food\3a__end__;
+	food\3asubmit_order -.-> food\3aresolve_order;
+	food\3aresolve_order --> food\3a__end__;
+	food\3aassistant -.-> food\3aassistant;
+	end
+	subgraph manage_memory
+	manage_memory\3aprocess_memory(process_memory)
+	end
+	subgraph warm_memory
+	warm_memory\3aprocess_memory(process_memory)
+	end
+	subgraph learn_orders
+	learn_orders\3aprocess_memory(process_memory)
+	end
+	classDef default fill:#f2f0ff,line-height:1.2
+	classDef first fill-opacity:0
+	classDef last fill:#bfb6fc
